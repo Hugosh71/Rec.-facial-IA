@@ -8,7 +8,7 @@ from functions.transformation import augmentation_dataset, get_transform
 
 def load_data():
     
-    data = pd.read_csv('..//fer2013.csv')
+    data = pd.read_csv('..//..//fer2013.csv') #mettre le fichier a la source du projet
     pixels = data['pixels'].tolist()
     width, height = 48, 48
     faces = []
