@@ -12,7 +12,7 @@ class VGG16(nn.Module):
         self.num_hidden = num_hidden
         self.model_name = model_name
         self.features = nn.Sequential(
-            nn.Conv2d(self.in_chanels, 64, kernel_size=3, padding=1),
+            nn.Conv2d(self.in_channels, 64, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
             nn.Conv2d(64, 64, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
