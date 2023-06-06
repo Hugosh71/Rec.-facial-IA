@@ -9,7 +9,7 @@ if __name__ == "__main__":
         "epochs" : 100,
         "dropout" : 0.15,
         "num_hidden" : 512,
-        "model" : "ResNet"
+        "model" : "VGG16"  #"ResNet" / "VGG16" / "Model48" / "OurModel"
     }
 
     train_dataset, X_val, y_train, y_val= load_data()
