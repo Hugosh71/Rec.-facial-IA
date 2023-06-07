@@ -28,7 +28,7 @@ Projet étudiant portant sur "la reconnaissance des émotions faciales par l'int
 **Dataset :**
     dataset_to_csv.py : permet si le dataset est sous forme d'image de les faires passer sous la meme forme que fer2013 afin de pouvoir rajouter des données
     
-**mysite :***
+**mysite :**
 - polls/views.py & polls/camera.py: traitement de l'image envoyé soit par la caméra soit par une importation d'image et prédiction de l'image proposé. Soit en utilisant la librairie deepFace ou le model pré-entrainé model.pth qui se trouve dans le meme repertoir courant.
 - templates/index.html : page html qui permet l'interface de la webcam et envoie l'image de la webcam toutes les secondes et recupere l'emotion associé
 - les autres fichiers sont des fichiers de projet django qui sont nécéssaire au bon fonctionement du projet
