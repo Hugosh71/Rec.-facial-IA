@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Django Webcam Emotion Detection</title>
+    <style>
+        
+        h1 {
+            text-align: center;
+        }
+
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #method-switch {
+            margin-bottom: 20px;
+        }
+
+        
+        #emotion {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Styles pour la vidéo */
+        #video-container {
+            width: 640px;
+            height: 480px;
+            margin-right: 20px;
+            float: left;
+            border: 2px solid black;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #emotion-text {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Styles pour l'input file et l'image */
+        #myFileInput {
+            position: absolute;
+            top: 120px;
+            right: 50px;
+        }
+
+        #myImage {
+            position: absolute;
+            top: 200px;
+            right: 300px;
+            max-width: 100%;
+            border: 2px solid black;
+        }
+
+        /* Styles pour l'affichage de l'émotion de l'image */
+        #emotion_image {
+            position: absolute;
+            font-weight: bold;
+            bottom: 200px;
+            right: 400px;
+        }
+
+        /* Nouvelle phrase au-dessus du bouton "Ajouter une image" */
+        #upload-image-label {
+            text-align: right;
+            margin-bottom: 20px;
+            float: right; /* Déplacer le texte à droite */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            var confirmation = confirm('Bienvenue ! Ceci est notre projet de reconnaissance des émotions faciales par une intelligence artificielle. Voulez-vous continuer ?');
+            if (confirmation) {
+                // L'utilisateur a cliqué sur "OK", la page peut charger
+                // Mettez votre code de chargement de la page ici
+            }
+        });
+    </script>
+    
+    <h1>Django Webcam Emotion Detection</h1>
+    <label for="method-switch">Choose a prediction method:</label>
+    <select id="method-switch">
+        <option value="DeepFace">DeepFace</option>
+        <option value="ResNet">ResNet</option>
+    </select>
+    <p>Emotion: <span id="emotion">None</span></p>
+    <div id="video-container">
+        <video id="video" autoplay></video>
+    </div>
+    <input type="file" id="myFileInput">
+    <br>
+    <img id="myImage" src="">
+    <p id="emotion_image">Emotion: None</p>
+
+    <script>
+        // Set up the webcam
+        var video = document.querySelector("#video");
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.log("Something went wrong!");
+                });
+        }
+
+        // Capture an image from the webcam
+        function captureImage() {
+            var canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL();
+        }
+
+        // Send the image to the Django view
+        function sendImage() {
+            var method = document.querySelector("#method-switch").value;
+            var image = captureImage();
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var emotion = data['emotion'];
+                    document.querySelector("#emotion").textContent = emotion;
+                }
+            };
+            xhr.send(JSON.stringify({ image: image, method: method }));
+        }
+
+        // Set up an interval to send images every second
+        setInterval(sendImage, 1000);
+    </script>
+
+    <script>
+        document.querySelector("#myFileInput").addEventListener("change", function() {
+            var fileInput = document.querySelector("#myFileInput");
+            var image = fileInput.files[0];
+            var imageURL = URL.createObjectURL(image);
+            document.querySelector("#myImage").src = imageURL;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var base64Image = e.target.result;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "");
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        var emotion = data['emotion'];
+                        document.querySelector("#emotion_image").textContent = emotion;
+                    }
+                };
+                xhr.send(JSON.stringify({ image: base64Image }));
+            }
+            reader.readAsDataURL(image);
+        });
+    </script>
+</body>
+</html>
