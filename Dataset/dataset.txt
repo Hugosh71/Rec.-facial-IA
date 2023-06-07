@@ -1,2 +1,0 @@
-get the fer2013.csv on kaggle :
-https://www.kaggle.com/datasets/deadskull7/fer2013
