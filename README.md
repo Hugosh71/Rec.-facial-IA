@@ -25,4 +25,11 @@ Structure du projet
  - main.py fonction de lancement de l'entrainement de données. Les parametres présent dans le fichier sont les meilleurs hyperparametres que nous avons trouvé pour entrainer nos données et obtenir 60% d'accuracy environ
  - search_best_parameters.py utilise la librairie optuna et le fichier functions pour chercher des hyperparametre optimaux a notre probleme sur n_iteration à définir
 
-**Dataset :** 
+**Dataset :**
+    dataset_to_csv.py : permet si le dataset est sous forme d'image de les faires passer sous la meme forme que fer2013 afin de pouvoir rajouter des données
+
+Dataset  
+--------
+Nous avons utilisés un dataset via Kaggle pour notre projet, ce dataset contient 39900 images des 7 emotions étiqueté : [Dataset's Web site](https://www.kaggle.com/datasets/deadskull7/fer2013).
+Pour un bon fonctionnement du projet le fichier fer2013.csv est à mettre dans ce fichier Dataset.
+
