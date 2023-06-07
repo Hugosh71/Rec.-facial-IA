@@ -1,7 +1,7 @@
 # Rec.-faciale-IA
 Projet étudiant portant sur "la reconnaissance des émotions faciales par l'intelligence artificielle"
 
-Structure du projet
+## Structure du projet
 ---------
 **DeepFace :** Il s'agit d'un répertoire qui contient un fichier Python Webcam, et un fichier Notebook DeepFace_notebook.
 - Webcam.py est un fichier qui utilise la bibliothèque DeepFace pour renseigner les caractéristiques faciales du visage observé à la WebCam de l'utilisateur.  (Pressez 'q' pour arrêter)       
@@ -27,9 +27,31 @@ Structure du projet
 
 **Dataset :**
     dataset_to_csv.py : permet si le dataset est sous forme d'image de les faires passer sous la meme forme que fer2013 afin de pouvoir rajouter des données
+    
+**mysite :***
+- polls/views.py & polls/camera.py: traitement de l'image envoyé soit par la caméra soit par une importation d'image et prédiction de l'image proposé. Soit en utilisant la librairie deepFace ou le model pré-entrainé model.pth qui se trouve dans le meme repertoir courant.
+- templates/index.html : page html qui permet l'interface de la webcam et envoie l'image de la webcam toutes les secondes et recupere l'emotion associé
+- les autres fichiers sont des fichiers de projet django qui sont nécéssaire au bon fonctionement du projet
 
 Dataset  
 --------
 Nous avons utilisés un dataset via Kaggle pour notre projet, ce dataset contient 39900 images des 7 emotions étiqueté : [Dataset's Web site](https://www.kaggle.com/datasets/deadskull7/fer2013).
-Pour un bon fonctionnement du projet le fichier fer2013.csv est à mettre dans ce fichier Dataset.
+Pour un bon fonctionnement du projet le fichier fer2013.csv est à mettre dans le dossier Dataset prévu à cet effet.
 
+## Lancer le rendu caméra
+--------
+Afin de pouvoir visualiser le rendu caméra, il faut télécharger le dossier **mysite**
+-En premier, dans polls/views.py : ligne 89 : il faut modifier le chemin d'acces au fichier model.pth (mettre un chemin absolu)
+    -faire de meme dans polls/camera.py ligne 89
+- installer django sur votre machine :
+    ``` pip install django ```
+- Ouvrir le terminal dans le repertoir courant du fichier manage.py qui se trouve à la racine du projet. Puis dans le terminal lancer la commande : ```py manage.py runserver```
+- Enfin dans votre navigateur copiez cette url : [Django run local](http://localhost:8000/polls/)
+
+Sur le site, vous pouvez comparer la librairie DeepFace deja existante et le model ResNet que nous avons entrainé. Vous pouvez inserer une image et ainsi afficher l'émotion detecté de cette personne par notre modele ResNet.
+
+## Lancer un entrainement de modele
+--------
+- Telecharger le fichier Pytorch et le fichier Dataset puis installer le fichier fer2013.csv à l'interieur de ce dernier
+- lancer le main.py en modifiant les parametres si souhaité.
+    - les parametres deja présent sont les meilleurs hyperparametres que nous avons trouvé pour notre entrainement.
